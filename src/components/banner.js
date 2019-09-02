@@ -17,7 +17,7 @@ import { Container, Hero, Heading, Columns } from "react-bulma-components/full";
                     <Heading subtitle size={5}>
                         <span className="has-text-weight-light">Nossos especialistas finalizaram a motantagem e publicação do seu projeto.</span>
                     </Heading>
-                    <a href="#" className="button is-outlined is-white">Clique aqui e veja como ficou.</a>
+                    <a href="https://google.com/" className="button is-outlined is-white">Clique aqui e veja como ficou.</a>
                 </Hero.Body>
                 </Columns.Column>
                 </Columns>

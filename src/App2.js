@@ -1,16 +1,17 @@
 import React from "react";
-import "./App.css";
-import CompNavbar from './components/navbar'
+//import "./App.css";
+import CompNavbar from "./components/navbar";
 import CompBlocagem from "./components/blocagem";
 
-function App2() {
-   return (
-
-    <React.Fragment>
+class App2 extends React.Component {
+  render() {
+    return (
+      <React.Fragment>
         <CompNavbar />
-      <CompBlocagem />
-    </React.Fragment>
+        <CompBlocagem />
+      </React.Fragment>
     );
+  }
 }
 
 export default App2;

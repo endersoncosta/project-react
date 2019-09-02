@@ -11,10 +11,7 @@ import {
 } from "react-bulma-components/full";
 
 class CompProjects extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
+  
   render() {
     
     const projects = [];
