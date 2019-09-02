@@ -3,6 +3,17 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 import { Columns, Container } from "react-bulma-components/full";
 
+import {
+  Accordion,
+  AccordionItem,
+  AccordionItemHeading,
+  AccordionItemButton,
+  AccordionItemPanel,
+} from 'react-accessible-accordion';
+
+// Demo styles, see 'Styles' section below for some notes on use.
+import 'react-accessible-accordion/dist/fancy-example.css';
+
 // fake data generator
 const getItems = (count, offset = 0) =>
   Array.from({ length: count }, (v, k) => k).map(k => ({
@@ -59,6 +70,7 @@ const getListStyle = isDraggingOver => ({
 class CompBlocagem extends Component {
   state = {
     items: getItems(10),
+    items2: getItems(5, 995),
     selected: getItems(5, 10)
   };
 
@@ -69,7 +81,8 @@ class CompBlocagem extends Component {
    */
   id2List = {
     droppable: "items",
-    droppable2: "selected"
+    droppable2: "selected",
+    droppable3: "items2"
   };
 
   getList = id => this.state[this.id2List[id]];
@@ -95,6 +108,10 @@ class CompBlocagem extends Component {
         state = { selected: items };
       }
 
+      if (source.droppableId === "droppable3") {
+        state = { items2: items };
+      }
+
       this.setState(state);
     } else {
       const result = move(
@@ -105,8 +122,9 @@ class CompBlocagem extends Component {
       );
 
       this.setState({
-        items: result.droppable,
-        selected: result.droppable2
+        items: result.droppable || this.state.items,
+        selected: result.droppable2  || this.state.selected,
+        items2: result.droppable3 || this.state.items2
       });
     }
   };
@@ -114,11 +132,63 @@ class CompBlocagem extends Component {
   // Normally you would want to split things out into separate components.
   // But in this example everything is just done in one place for simplicity
   render() {
-    return (
+    return (        
       <DragDropContext onDragEnd={this.onDragEnd}>
         <Container className="mt-2" >
           <Columns>
             <Columns.Column size={3}>
+            <Accordion className="card" allowZeroExpanded={true}>
+            <AccordionItem>
+                <AccordionItemHeading>
+                    <AccordionItemButton>
+                        Componentes de teste
+                    </AccordionItemButton>
+                </AccordionItemHeading>
+                <AccordionItemPanel>                
+              <Droppable droppableId="droppable3">
+                {(provided, snapshot) => (
+                  <div
+                    ref={provided.innerRef}
+                    style={getListStyle(snapshot.isDraggingOver)}
+                  >
+                    {this.state.items2.map((item, index) => (
+                      <Draggable
+                        key={item.id}
+                        draggableId={item.id}
+                        index={index}
+                      >
+                        {(provided, snapshot) => (
+                          <div
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                            style={getItemStyle(
+                              snapshot.isDragging,
+                              provided.draggableProps.style
+                            )}
+                          >
+                            {item.content}
+                          </div>
+                        )}
+                      </Draggable>
+                    ))}
+                    {provided.placeholder}
+                  </div>
+                )}
+              </Droppable>
+              </AccordionItemPanel>
+            </AccordionItem>
+            </Accordion>
+            
+            
+            <Accordion className="card" allowZeroExpanded={true}>
+            <AccordionItem>
+                <AccordionItemHeading>
+                    <AccordionItemButton>
+                        Componentes de teste 2
+                    </AccordionItemButton>
+                </AccordionItemHeading>
+                <AccordionItemPanel>                
               <Droppable droppableId="droppable">
                 {(provided, snapshot) => (
                   <div
@@ -150,6 +220,10 @@ class CompBlocagem extends Component {
                   </div>
                 )}
               </Droppable>
+              </AccordionItemPanel>
+            </AccordionItem>
+            </Accordion>
+            
             </Columns.Column>
 
             <Columns.Column>
